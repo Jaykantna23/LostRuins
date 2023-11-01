@@ -6,7 +6,7 @@ public class Jump_player : MonoBehaviour
 {
     Rigidbody2D rb;
     bool OnGround;
-    public float jumpSpeed=10f;
+    public float jumpForce=10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +17,11 @@ public class Jump_player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetKey(KeyCode.Space)&& OnGround)
+       if (Input.GetKeyDown("space") && OnGround)
        {
-        rb.velocity=new Vector2(rb.velocity.x,jumpSpeed);
-       } 
+            //rb.velocity=new Vector2(rb.velocity.x,jumpSpeed);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        } 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

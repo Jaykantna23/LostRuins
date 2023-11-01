@@ -7,6 +7,7 @@ public class Jump : MonoBehaviour
     Rigidbody2D rb;
     bool OnGround;
     public float jumpSpeed=10f;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,15 +18,17 @@ public class Jump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetKey(KeyCode.Space)&& OnGround)
+       if (Input.GetKeyDown(KeyCode.Space)&& OnGround)
        {
-        rb.velocity=new Vector2(rb.velocity.x,jumpSpeed);
+            animator.SetBool("IsJumping",true);
+            rb.velocity=new Vector2(rb.velocity.x,jumpSpeed);
        } 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Ground"))
         {
+            animator.SetBool("IsJumping", false);
             OnGround = true;
         }
     }
