@@ -1,37 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMover : MonoBehaviour
 {
-    public float interpVelocity;
-    public float minDistance;
-    public float followDistance;
-    public GameObject target;
+    public Transform player;
+    public float smoothSpeed = .125f;
     public Vector3 offset;
-    Vector3 targetPos;
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
-        targetPos = transform.position;
+        
+    }
+    private void FixedUpdate()
+    {
+        Vector3 desiredPos = player.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+        transform.position = smoothedPosition;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (target)
-        {
-            Vector3 posNoZ = transform.position;
-            posNoZ.z = target.transform.position.z;
-
-            Vector3 targetDirection = (target.transform.position - posNoZ);
-
-            interpVelocity = targetDirection.magnitude * 5f;
-
-            targetPos = transform.position + (targetDirection.normalized * interpVelocity * Time.deltaTime);
-
-            transform.position = Vector3.Lerp(transform.position, targetPos + offset, 0.25f);
-
-        }
-    }
 }
